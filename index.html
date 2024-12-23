@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>DrumkitJs</title>
+</head>
+<body>
+    <div class="keys">
+        <div  data-key='65' class="key">
+            <kbd>A</kbd>
+            <span class="sound">clap</span>
+        </div>
+        <div  data-key='83' class="key">
+            <kbd>S</kbd>
+            <span class="sound">hithat</span>
+        </div>
+        <div  data-key='70' class="key">
+            <kbd>F</kbd>
+            <span class="sound">openhat</span>
+        </div>
+        <div  data-key='71' class="key">
+            <kbd>G</kbd>
+            <span class="sound">boom</span>
+        </div>
+    </div>
+
+    <audio data-key="65"  src = './sound/clap.wav'></audio>
+    <audio data-key="83"  src = './sound/hihat.wav'></audio>
+    <audio data-key="70"  src = './sound/openhat.wav'></audio>
+    <audio data-key="71"  src = './sound/boom.wav'></audio>
+
+
+<script>
+    window.addEventListener('keydown',playsound)
+
+    function playsound(e){
+        kcode = e.keyCode
+
+        item = document.querySelector(`audio[data-key="${kcode}"]   `)
+        key = document.querySelector(`.key[data-key='${kcode}']`)
+        if(!item) return;
+        item.currentTime = 0
+        item.play()
+        key.classList.add('playing')
+
+    }
+    function removeTransition(e){
+        if(e.propertyName !== 'transform') return
+        e.target.classList.remove('playing')
+    }
+
+    keys = document.querySelectorAll('.key')
+    keys.forEach(key=> {
+        key.addEventListener('transitionend',removeTransition)
+    });
+
+</script>
+</body>
+</html>
